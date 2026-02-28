@@ -1,13 +1,13 @@
 ﻿using Santander.BestStories.Application.Interfaces;
+using Santander.BestStories.Domain.Contracts.Services;
 using Santander.BestStories.Domain.Entities;
-using Santander.BestStories.Domain.Interfaces.Services;
 
 namespace Santander.BestStories.Application.UseCases
 {
     public class BestStoriesUseCase : IBestStoriesUseCase
     {
         private readonly IHackerNewsService _hackerNewsService;
-        private readonly int _concurrentTasksLimit = 20;
+        private readonly int _maxConcurrentTasks = 20;
 
         public BestStoriesUseCase(IHackerNewsService hackerNewsService)
         {
@@ -25,35 +25,31 @@ namespace Santander.BestStories.Application.UseCases
                 .Take(numberOfStories)
                 .ToList();
 
-            // implementing Fork-Join design pattern for better performance
+            // Using Semaphore for better performance
             // limiting max concurrent tasks to avoid overloading hackernews api
 
-            var tasks = new List<Task<Story>>();
-            var stories = new List<Story>();
+            using var semaphore = new SemaphoreSlim(_maxConcurrentTasks, _maxConcurrentTasks);
 
-            foreach (var id in ids)
+            var tasks = ids.Select(async id =>
             {
-                tasks.Add(_hackerNewsService.GetStoryByIdAsync(id, cancellationToken));
+                await semaphore.WaitAsync(cancellationToken);
 
-                if (tasks.Count >= _concurrentTasksLimit)
+                try
                 {
-                    var batch = await Task.WhenAll(tasks);
-                    stories.AddRange(batch);
-
-                    tasks.Clear();
+                    return await _hackerNewsService.GetStoryByIdAsync(id, cancellationToken);
                 }
-            }
+                finally
+                {
+                    semaphore.Release();
+                }
+            });
 
-            if (tasks.Count > 0)
-            {
-                var batch = await Task.WhenAll(tasks);
-                stories.AddRange(batch);
-            }
+            var stories = await Task.WhenAll(tasks);
 
-            tasks.Clear();
-            tasks = null;
-
-            return stories;
+            return stories
+                .Where(s => s != null)
+                .OrderByDescending(s => s.Score)
+                .Take(numberOfStories);
         }
     }
 }

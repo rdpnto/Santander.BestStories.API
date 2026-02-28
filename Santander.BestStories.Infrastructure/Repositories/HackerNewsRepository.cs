@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
+using Santander.BestStories.Domain.Contracts.Repositories;
 using Santander.BestStories.Domain.Entities;
-using Santander.BestStories.Domain.Interfaces.Repositories;
 using Santander.BestStories.Infrastructure.Dtos;
 
 namespace Santander.BestStories.Infrastructure.Repositories
@@ -17,7 +17,7 @@ namespace Santander.BestStories.Infrastructure.Repositories
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
-        public async Task<IEnumerable<uint>> GetBestStoryIdsAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<int>> GetBestStoryIdsAsync(CancellationToken cancellationToken)
         {
             var response = await _cache.GetOrCreateAsync("best_stories_ids", async entry =>
             {
@@ -37,13 +37,13 @@ namespace Santander.BestStories.Infrastructure.Repositories
                     .ReadAsStringAsync(cancellationToken);
 
                 return JsonSerializer
-                    .Deserialize<List<uint>>(content);
+                    .Deserialize<List<int>>(content);
             });
 
             return response ?? [];
         }
 
-        public async Task<Story> GetStoryByIdAsync(uint id, CancellationToken cancellationToken)
+        public async Task<Story> GetStoryByIdAsync(int id, CancellationToken cancellationToken)
         {
             var response = await _cache.GetOrCreateAsync(id, async entry =>
             {

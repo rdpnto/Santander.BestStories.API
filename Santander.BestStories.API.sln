@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Santander.BestStories.API", "Santander.BestStories.API\Santander.BestStories.API.csproj", "{CB540301-FB8F-420A-9216-896C3A63A7F7}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Santander.BestStories.Application", "Santander.BestStories.Application\Santander.BestStories.Application.csproj", "{A407ED75-361F-40D1-9E63-8B1C8CE1400E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Santander.BestStories.Infrastructure", "Santander.BestStories.Infrastructure\Santander.BestStories.Infrastructure.csproj", "{F79F0BDE-8B62-4E5F-A3FE-E6C87E4A9522}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Santander.BestStories.Tests", "Santander.BestStories.Tests\Santander.BestStories.Tests.csproj", "{84207AB1-83FA-4CED-BF96-3CD800AEB6A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{F79F0BDE-8B62-4E5F-A3FE-E6C87E4A9522}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F79F0BDE-8B62-4E5F-A3FE-E6C87E4A9522}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F79F0BDE-8B62-4E5F-A3FE-E6C87E4A9522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84207AB1-83FA-4CED-BF96-3CD800AEB6A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84207AB1-83FA-4CED-BF96-3CD800AEB6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84207AB1-83FA-4CED-BF96-3CD800AEB6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84207AB1-83FA-4CED-BF96-3CD800AEB6A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +58,7 @@ Global
 		{2C33F639-4D35-46F2-A828-81A7EA35F525} = {703E51C1-994E-4CFC-81BA-279934C019BD}
 		{A407ED75-361F-40D1-9E63-8B1C8CE1400E} = {9C62B59A-642A-4C34-AD9D-C9E902B89F13}
 		{F79F0BDE-8B62-4E5F-A3FE-E6C87E4A9522} = {A7343EE3-EEB5-40B8-B14A-105C39AFF8EF}
+		{84207AB1-83FA-4CED-BF96-3CD800AEB6A8} = {4552EB8F-1030-4338-87D6-734181A2C701}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97CE343F-819A-414A-A770-AF3018122A42}

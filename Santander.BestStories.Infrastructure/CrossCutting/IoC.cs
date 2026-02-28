@@ -4,8 +4,8 @@ using Polly;
 using Polly.Extensions.Http;
 using Santander.BestStories.Application.Interfaces;
 using Santander.BestStories.Application.UseCases;
-using Santander.BestStories.Domain.Interfaces.Repositories;
-using Santander.BestStories.Domain.Interfaces.Services;
+using Santander.BestStories.Domain.Contracts.Repositories;
+using Santander.BestStories.Domain.Contracts.Services;
 using Santander.BestStories.Domain.Services;
 using Santander.BestStories.Infrastructure.Repositories;
 
