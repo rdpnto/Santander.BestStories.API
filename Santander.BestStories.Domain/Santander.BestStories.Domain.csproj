@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Santander.BestStories.Domain\Santander.BestStories.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

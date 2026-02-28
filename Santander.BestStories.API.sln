@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Infrastructure", "04 -
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 - Tests", "05 - Tests", "{4552EB8F-1030-4338-87D6-734181A2C701}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Santander.BestStories.Domain", "Domain.Model\Santander.BestStories.Domain.csproj", "{2C33F639-4D35-46F2-A828-81A7EA35F525}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Santander.BestStories.Domain", "Santander.BestStories.Domain\Santander.BestStories.Domain.csproj", "{2C33F639-4D35-46F2-A828-81A7EA35F525}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Santander.BestStories.Application", "Santander.BestStories.Application\Santander.BestStories.Application.csproj", "{A407ED75-361F-40D1-9E63-8B1C8CE1400E}"
 EndProject
