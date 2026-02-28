@@ -1,10 +1,12 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
 using Santander.BestStories.Domain.Entities;
+using Santander.BestStories.Domain.Interfaces.Repositories;
+using Santander.BestStories.Infrastructure.Dtos;
 
 namespace Santander.BestStories.Infrastructure.Repositories
 {
-    public class HackerNewsRepository
+    public class HackerNewsRepository : IHackerNewsRepository
     {
         private readonly HttpClient _httpClient;
         private readonly IMemoryCache _cache;
@@ -15,37 +17,57 @@ namespace Santander.BestStories.Infrastructure.Repositories
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
-        public async Task<IReadOnlyList<int>> GetBestStoryIdsAsync(CancellationToken ct)
+        public async Task<IEnumerable<uint>> GetBestStoryIdsAsync(CancellationToken cancellationToken)
         {
-            return await _cache.GetOrCreateAsync("beststories_ids", async entry =>
+            var response = await _cache.GetOrCreateAsync("best_stories_ids", async entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
 
-                var response = await _httpClient.GetAsync("beststories.json", ct);
-                response.EnsureSuccessStatusCode();
+                var response = await _httpClient
+                    .GetAsync
+                    (
+                        requestUri: "beststories.json",
+                        cancellationToken: cancellationToken
+                    );
 
-                var content = await response.Content.ReadAsStringAsync(ct);
-                return JsonSerializer.Deserialize<List<int>>(content) ?? new List<int>();
-            }) ?? new List<int>();
+                if (!response.IsSuccessStatusCode) return null;
 
-            //var response = await _httpClient.GetAsync("beststories.json", ct);
-            //response.EnsureSuccessStatusCode();
+                var content = await response
+                    .Content
+                    .ReadAsStringAsync(cancellationToken);
 
-            //var content = await response.Content.ReadAsStringAsync(ct);
-            //return JsonSerializer.Deserialize<List<int>>(content) ?? new List<int>();
+                return JsonSerializer
+                    .Deserialize<List<uint>>(content);
+            });
+
+            return response ?? [];
         }
 
-        public async Task<Story> GetStoryByIdAsync(int id, CancellationToken ct)
+        public async Task<Story> GetStoryByIdAsync(uint id, CancellationToken cancellationToken)
         {
-            var response = await _httpClient.GetAsync($"item/{id}.json", ct);
-            if (!response.IsSuccessStatusCode)
-                return null;
+            var response = await _cache.GetOrCreateAsync(id, async entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
 
-            var content = await response.Content.ReadAsStringAsync(ct);
+                var response = await _httpClient
+                    .GetAsync
+                    (
+                        requestUri: $"item/{id}.json",
+                        cancellationToken: cancellationToken
+                    );
 
-            return JsonSerializer.Deserialize<Story>(
-                content,
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                if (!response.IsSuccessStatusCode) return null;
+
+                var content = await response
+                    .Content
+                    .ReadAsStringAsync(cancellationToken);
+
+                return JsonSerializer.Deserialize<StoryDto>(content);
+            });
+
+            if (response is null) return null;
+
+            return response.ToStory();
         }
     }
 }

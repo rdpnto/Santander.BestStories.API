@@ -2,14 +2,33 @@
 {
     public class Story
     {
-        public string by { get; set; }
-        public int descendants { get; set; }
-        public int id { get; set; }
-        public int[] kids { get; set; }
-        public int score { get; set; }
-        public int time { get; set; }
-        public string title { get; set; }
-        public string type { get; set; }
-        public string url { get; set; }
+        public Story
+        (
+            string title,
+            string uri,
+
+            string postedBy,
+            DateTimeOffset time,
+
+            int score,
+            int commentCount
+        )
+        {
+            Title = title;
+            Uri = uri;
+
+            PostedBy = postedBy;
+            Time = time;
+
+            Score = score;
+            CommentCount = commentCount;
+        }
+
+        public string Title { get; private set; }
+        public string Uri { get; private set; }
+        public string PostedBy { get; private set; }
+        public DateTimeOffset Time { get; private set; }
+        public int Score { get; private set; }
+        public int CommentCount { get; private set; }
     }
 }

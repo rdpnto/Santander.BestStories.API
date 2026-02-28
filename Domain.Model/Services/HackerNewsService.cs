@@ -1,18 +1,26 @@
 ﻿using Santander.BestStories.Domain.Entities;
-using Santander.BestStories.Domain.Interfaces;
+using Santander.BestStories.Domain.Interfaces.Repositories;
+using Santander.BestStories.Domain.Interfaces.Services;
 
 namespace Santander.BestStories.Domain.Services
 {
     public class HackerNewsService : IHackerNewsService
     {
-        public Task<IReadOnlyList<int>> GetBestStoryIdsAsync(CancellationToken cancellationToken)
+        private readonly IHackerNewsRepository _hackerNewsRepository;
+
+        public HackerNewsService(IHackerNewsRepository hackerNewsRepository)
         {
-            throw new NotImplementedException();
+            _hackerNewsRepository = hackerNewsRepository ?? throw new ArgumentNullException(nameof(hackerNewsRepository));
         }
 
-        public Task<Story> GetStoryByIdAsync(int id, CancellationToken cancellationToken)
+        public Task<IEnumerable<uint>> GetBestStoryIdsAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _hackerNewsRepository.GetBestStoryIdsAsync(cancellationToken);
+        }
+
+        public Task<Story> GetStoryByIdAsync(uint id, CancellationToken cancellationToken)
+        {
+            return _hackerNewsRepository.GetStoryByIdAsync(id, cancellationToken);
         }
     }
 }

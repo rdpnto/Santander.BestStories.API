@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Santander.BestStories.Application.Interfaces;
 
 namespace Santander.BestStories.API.Controllers
 {
@@ -13,15 +14,21 @@ namespace Santander.BestStories.API.Controllers
             _useCase = useCase;
         }
 
-        [HttpGet("best")]
-        public async Task<IActionResult> GetBestStories(
-            [FromQuery] int n = 10,
-            CancellationToken ct = default)
+        [HttpGet("best-stories")]
+        public async Task<IActionResult> GetBestStories
+        (
+            [FromQuery] int n,
+            CancellationToken cancellationToken = default
+        )
         {
-            if (n <= 0 || n > 200)
-                return BadRequest("n must be between 1 and 200");
+            if (n <= 0 || n > 200) return BadRequest("n must sit between 1 and 200");
 
-            var stories = await _useCase.GetBestStoriesAsync(n, ct);
+            var stories = await _useCase
+                .GetBestStoriesAsync
+                (
+                    numberOfStories: n,
+                    cancellationToken: cancellationToken
+                );
 
             return Ok(stories);
         }
